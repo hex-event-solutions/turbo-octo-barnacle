@@ -1,0 +1,43 @@
+#!/bin/zsh
+slide_title() {
+ gum input
+ gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 56 --margin "1 2" --padding "2 4" $@
+}
+make_pull_request() {
+  random_input=$(echo $RANDOM | md5sum | head -c 20)
+  git checkout --quiet -b $random_input
+  filename=$random_input
+  echo "ths is a file" > $filename
+  git add $filename
+  git commit --quiet -m "Add a random file"
+  git push --quiet -u --no-progress origin $filename
+  gh pr create --title "Add a random file" -d --body ""
+}
+slide_title "Subscribing to a team's PRs" "/prbot subscribe to <github-team>"
+echo "/prbot subscribe to ripple" | pbcopy
+slide_title "🛠  Creating a file and opening a draft PR 🛠"
+make_pull_request
+slide_title "✨ Taking the PR out of draft ✨" "This'll send a message to the subscribed channel!"
+gh pr ready
+slide_title "✅ Approving the PR ✅" "This'll react to the message with ✅!"
+slide_title "🛠 Dismissing reviews... 🛠" "If reviews are dismissed, reactions are wiped."
+second_filename=$(echo $RANDOM | md5sum | head -c 20)
+echo "ths is also a file" > $second_filename
+git add $second_filename
+git commit -m "Add another random file"
+git push
+slide_title "💬 Commenting 💬" "This'll react with 💬...or your custom emoji of choice!"
+slide_title "✅ Approving again! ✅" "Let's get this baby merged."
+slide_title "🚗 Merging the PR 🚗" "This'll react with our merge emoji!"
+gh pr merge -m -t "Demo merge"
+slide_title "🥸 Changing the template for messages... 🥸" "/prbot set template for <team> to <template>"
+echo "/prbot set template for ripple to :merge: {{title}} by {{author}} {{link}}" | pbcopy
+make_pull_request
+# Do this manually
+slide_title "🖌 Changing your custom emoji... 🖌" "/prbot react as :fish:" 
+echo "/prbot react as :fish:" | pbcopy
+# Do this manually
+slide_title "✨ One last time - opening up a PR! ✨"
+gh pr ready

@@ -3,7 +3,7 @@ slide_title() {
  gum input
  gum style \
 	--foreground 212 --border-foreground 212 --border double \
-	--align center --width 56 --margin "1 2" --padding "2 4" $@
+	--align center --width 52 --margin "1 2" --padding "2 4" $@
 }
 make_pull_request() {
   random_input=$(echo $RANDOM | md5sum | head -c 20)
@@ -22,7 +22,7 @@ make_pull_request
 slide_title "✨ Taking the PR out of draft ✨" "This'll send a message to the subscribed channel!"
 gh pr ready
 slide_title "✅ Approving the PR ✅" "This'll react to the message with ✅!"
-slide_title "🛠 Dismissing reviews... 🛠" "If reviews are dismissed, reactions are wiped."
+slide_title "🛠 Dismissing reviews... 🛠" "If reviews are dismissed, reactions are wiped." "You'll also be DMed if your review was dismissed."
 second_filename=$(echo $RANDOM | md5sum | head -c 20)
 echo "ths is also a file" > $second_filename
 git add $second_filename
@@ -39,5 +39,5 @@ make_pull_request
 slide_title "🖌 Changing your custom emoji... 🖌" "/prbot react as :fish:" 
 echo "/prbot react as :fish:" | pbcopy
 # Do this manually
-slide_title "✨ One last time - opening up a PR! ✨"
+slide_title "✨ One last time - opening up a PR! ✨" "While we've been busy, this channel has been updating too!"
 gh pr ready
